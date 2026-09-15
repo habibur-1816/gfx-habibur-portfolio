@@ -1,0 +1,19 @@
+import { ArrowUpRight, Check, Mail, MapPin, MessageCircle } from 'lucide-react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Section from './components/Section';
+import Portfolio from './components/Portfolio';
+import { site, services, skills, process } from './data/content';
+
+export default function App(){
+  const onSubmit=e=>{e.preventDefault();const data=new FormData(e.currentTarget);const subject=encodeURIComponent(`Project inquiry from ${data.get('name')}`);const body=encodeURIComponent(`Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\n${data.get('message')}`);window.location.href=`mailto:${site.email}?subject=${subject}&body=${body}`};
+  return <><Navbar/><main><Hero/>
+    <Section id="about" kicker="01 / About" title="More Than Just Design."><div className="about-grid"><div className="about-lead"><p>I combine visual thinking, design craft and practical marketing awareness to create work that feels distinctive and communicates clearly.</p><p>This portfolio is built to be easy to update: replace the project data and images in <code>src/data/projects.js</code> and your new work can appear without rebuilding the structure.</p></div><div className="facts"><div><strong>{site.location}</strong><span>Based in</span></div><div><strong>Focused</strong><span>On useful design</span></div><div><strong>Flexible</strong><span>Across digital formats</span></div></div></div></Section>
+    <Section id="services" kicker="02 / Services" title="Design Support From Idea to Delivery."><div className="service-grid">{services.map((s,i)=><article className="service" key={s.title}><span>0{i+1}</span><h3>{s.title}</h3><p>{s.text}</p><ArrowUpRight size={18}/></article>)}</div></Section>
+    <Section id="skills" kicker="03 / Skills" title="Tools & Capabilities."><div className="skill-list">{skills.map(s=><span key={s}>{s}</span>)}</div></Section>
+    <Section id="work" kicker="04 / Selected Work" title="A Few Things I Can Create."><Portfolio/></Section>
+    <Section id="process" kicker="05 / Process" title="Simple, Focused, Collaborative."><div className="process-grid">{process.map(([n,t,d])=><article key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></article>)}</div></Section>
+    <Section id="experience" kicker="06 / Experience" title="Built Around Real-World Needs."><div className="timeline"><div><span>Now</span><h3>Independent Creative Designer</h3><p>Brand identity, digital design, social media and marketing creative. Add your verified work history here.</p></div><div><span>Earlier</span><h3>Selected Projects & Collaborations</h3><p>Add your actual companies, clients, roles and dates here — no invented achievements.</p></div></div></Section>
+    <Section id="contact" kicker="07 / Contact" title="Have a Project in Mind?"><div className="contact-grid"><div><p className="contact-lead">Tell me what you are building, what you need designed, and where you want to take it.</p><div className="contact-lines"><a href={`mailto:${site.email}`}><Mail size={18}/>{site.email}</a><span><MapPin size={18}/>{site.location}</span><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noreferrer"><MessageCircle size={18}/>WhatsApp</a></div></div><form onSubmit={onSubmit}><label>Name<input required name="name" autoComplete="name"/></label><label>Email<input required type="email" name="email" autoComplete="email"/></label><label>Message<textarea required name="message" rows="6"/></label><button className="btn primary" type="submit">Send Inquiry <ArrowUpRight size={18}/></button></form></div></Section>
+  </main><footer><div className="container footer-inner"><strong>{site.brand}</strong><span>© {new Date().getFullYear()} {site.name}. Built with React + Vite.</span><a href="#home">Back to top ↑</a></div></footer></>;
+}
